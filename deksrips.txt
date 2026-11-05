@@ -1,0 +1,53 @@
+Deskripsi
+Boma adalah aplikasi SaaS pencatat keuangan pribadi dan keluarga berbasis Next.js 16 dan PostgreSQL, dengan maskot kucing coklat-putih dan tampilan pastel yang hangat. Pengguna masuk dengan akun Google, mencatat pemasukan, pengeluaran, dan transfer antar dompet, membuat anggaran bulanan, menabung untuk target, serta diingatkan tagihan rutin. Satu pengguna bisa mengajak pasangan mengelola buku keuangan yang sama. Paket Premium bulanan dibayar lewat DOKU, sedangkan harga dan batas fitur tiap paket diatur super admin dari panel admin.
+Cara kerja
+Setiap akun yang masuk dengan Google otomatis mendapat buku keuangan pribadi beserta dompet Tunai dan kategori bawaan. Semua data keuangan terikat ke buku, dan setiap aksi server memeriksa sesi, buku aktif, kepemilikan dompet/kategori, serta batas laju, sehingga tidak ada akses lintas pengguna. Nominal disimpan sebagai bilangan bulat rupiah dan tanggal memakai zona waktu WIB. Input nominal memahami cara orang mengetik seperti 25rb, 1,5jt, atau Rp 25.000.
+
+Saldo dompet dihitung dari saldo awal ditambah pemasukan, dikurangi pengeluaran, dan disesuaikan transfer antar dompet. Anggaran disimpan per kategori per bulan dan dibandingkan dengan pengeluaran nyata, lengkap dengan saran nominal aman per hari sampai akhir bulan. Target tabungan memakai riwayat setoran dan penarikan, dan bila punya tenggat Boma menghitung berapa yang perlu disisihkan tiap bulan. Tagihan rutin mingguan, bulanan, atau tahunan bisa ditandai lunas sekali klik: pengeluaran tercatat otomatis dan jatuh tempo maju ke periode berikutnya.
+
+Fitur pasangan memakai undangan bertoken acak yang hanya disimpan dalam bentuk hash, berlaku 7 hari, dan terikat ke email Google yang diundang. Hak fitur sebuah buku mengikuti paket pemiliknya. Paket (Gratis dan Premium) disimpan di database dengan harga, durasi, batas dompet/target/kategori, dan sakelar fitur yang bisa diubah super admin. Pembayaran Premium membuat halaman DOKU Checkout; status lunas diterapkan lewat webhook bertanda tangan HMAC dan pengecekan status, secara idempoten, lalu masa langganan diperpanjang.
+Fitur
+Next.js 16 App Router + PostgreSQL + Drizzle ORM, siap Docker (output standalone, migrasi otomatis)
+Login dengan Google (Better Auth), tanpa kata sandi; super admin otomatis lewat pengaturan email
+Landing page lengkap dengan maskot kucing dan ilustrasi, warna pastel coklat-putih tanpa gradasi
+Dasbor: total saldo, pemasukan & pengeluaran bulan ini, grafik 14 hari, komposisi kategori, pesan otomatis
+Transaksi pemasukan, pengeluaran, dan transfer antar dompet dengan filter, pencarian, dan muat lebih banyak
+Input nominal manusiawi: ketik 25rb, 1,5jt, atau Rp 25.000 langsung terbaca
+Banyak dompet (tunai, bank, e-wallet) dengan saldo awal dan arsip
+Kategori kustom dengan pilihan ikon dan warna
+Anggaran bulanan per kategori, sisa aman per hari, salin anggaran dari bulan lalu
+Target tabungan dengan setor/tarik, tenggat, dan saran nominal per bulan
+Tagihan rutin mingguan/bulanan/tahunan, bayar sekali klik otomatis tercatat sebagai pengeluaran
+Laporan bulanan: per kategori, sumber pemasukan, porsi ditabung, hari paling boros, tren 6 bulan
+Kelola keuangan berdua: undang 1 pasangan lewat email Google, catat siapa yang input, akses bisa dicabut
+Langganan Premium bulanan via DOKU Checkout (QRIS, VA, e-wallet, kartu) dengan webhook terverifikasi
+Batas paket Gratis vs Premium (dompet, target, kategori, fitur) diatur dari panel admin tanpa coding
+Panel super admin: ringkasan pendapatan & pengguna, blokir akun, beri Premium manual, pembayaran, log aktivitas
+Unduh transaksi CSV (aman dari CSV injection)
+Keamanan: query terparameter, cek kepemilikan data di setiap aksi, rate limit, CSP & security headers
+Mode uji lokal tanpa Google dan simulasi pembayaran tanpa kredensial DOKU
+Tampilan responsif dengan menu bawah dan tombol catat cepat di HP
+Panduan instalasi
+Kebutuhan: Node.js 20+ dan PostgreSQL 14+ (atau Docker).
+
+Ekstrak ZIP, buka terminal di folder boma, lalu jalankan npm install.
+
+Siapkan database: docker compose up -d (PostgreSQL siap pakai), atau buat database boma di PostgreSQL milikmu.
+
+Salin .env.example menjadi .env.local, lalu isi minimal:
+
+APP_URL=http://localhost:3000
+DATABASE_URL=postgres://boma:boma_lokal_ganti_ini@127.0.0.1:5432/boma
+BETTER_AUTH_SECRET= (string acak 32+ karakter, misal hasil openssl rand -base64 48)
+DEV_PASSWORD_LOGIN=1 agar bisa mencoba tanpa Google
+Buat tabel dan paket bawaan: npm run db:migrate
+
+Jalankan npm run dev, buka http://localhost:3000/masuk, lalu isi form Mode uji lokal (email & sandi bebas, min. 8 karakter).
+
+Jadikan akunmu super admin: npm run make-admin -- emailkamu@gmail.com, lalu buka menu Panel admin.
+
+Login Google: buat OAuth client (Web application) di Google Cloud Console dengan redirect URI http://localhost:3000/api/auth/callback/google (ganti domain saat online), lalu isi GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET.
+
+DOKU: isi DOKU_ENV, DOKU_CLIENT_ID, DOKU_SECRET_KEY dan set Notification URL https://domainmu.com/api/webhooks/doku. Tanpa kredensial, pembayaran di lokal memakai mode simulasi.
+
+Panduan lengkap dan cara deploy (Docker) ada di README.md.

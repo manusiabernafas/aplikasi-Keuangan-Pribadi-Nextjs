@@ -1,0 +1,15 @@
+# Database PostgreSQL siap pakai untuk mencoba Boma: docker compose up -d
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: boma
+      POSTGRES_PASSWORD: boma_lokal_ganti_ini
+      POSTGRES_DB: boma
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - boma-db:/var/lib/postgresql/data
+volumes:
+  boma-db:

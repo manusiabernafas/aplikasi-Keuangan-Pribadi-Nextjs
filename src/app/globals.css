@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/*
+ * Boma — palet "kucing coklat-putih": krim hangat, latte, mocha, karamel, hidung pink.
+ * Warna solid (tanpa gradasi). Kontras teks & tombol diuji >= 4.5:1 di atas krim/putih.
+ */
+:root {
+  --cream: #fbf6f0;       /* latar halaman */
+  --cream-2: #f5ece2;     /* latar sekunder / blok */
+  --card: #ffffff;
+  --latte: #ead8c6;       /* garis, permukaan lembut */
+  --latte-2: #f3e7da;
+  --mocha: #7a4f33;       /* warna utama (putih di atasnya 7.3:1) */
+  --mocha-hover: #643f28;
+  --mocha-soft: #efe2d5;
+  --caramel: #d99b5b;     /* aksen hangat */
+  --caramel-soft: #fbecdc;
+  --nose: #f0a8a4;        /* pink hidung kucing */
+  --nose-soft: #fde9e7;
+  --ink: #3a2a20;         /* teks utama */
+  --muted: #7c6758;       /* teks sekunder (5.4:1 di krim) */
+  --line: #ecdfd2;
+  --income: #3f8a5c;      /* pemasukan */
+  --income-soft: #e3f2e8;
+  --expense: #c4553f;     /* pengeluaran */
+  --expense-soft: #fbe6e1;
+  --sky: #6f9fc7;
+  --sky-soft: #e5f0f8;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-cream-2: var(--cream-2);
+  --color-card: var(--card);
+  --color-latte: var(--latte);
+  --color-latte-2: var(--latte-2);
+  --color-mocha: var(--mocha);
+  --color-mocha-hover: var(--mocha-hover);
+  --color-mocha-soft: var(--mocha-soft);
+  --color-caramel: var(--caramel);
+  --color-caramel-soft: var(--caramel-soft);
+  --color-nose: var(--nose);
+  --color-nose-soft: var(--nose-soft);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-income: var(--income);
+  --color-income-soft: var(--income-soft);
+  --color-expense: var(--expense);
+  --color-expense-soft: var(--expense-soft);
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: var(--caramel-soft);
+  color: var(--ink);
+}
+
+/* Fokus keyboard yang jelas di semua elemen interaktif */
+:focus-visible {
+  outline: 3px solid var(--caramel);
+  outline-offset: 2px;
+}
+
+/* Gerak halus maskot (dimatikan bila pengguna memilih reduced motion) */
+@keyframes boma-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes boma-wave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-16deg); }
+}
+.boma-float { animation: boma-float 4s ease-in-out infinite; }
+.boma-wave { transform-box: fill-box; transform-origin: 70% 95%; animation: boma-wave 1.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
