@@ -1,31 +1,46 @@
 @import "tailwindcss";
 
 /*
- * Boma — palet "kucing coklat-putih": krim hangat, latte, mocha, karamel, hidung pink.
- * Warna solid (tanpa gradasi). Kontras teks & tombol diuji >= 4.5:1 di atas krim/putih.
+ * Lvara redesign
+ * Palet pastel yang hangat, ringan, dan mudah dibaca.
+ * Nama token dipertahankan agar komponen lama tetap berjalan.
  */
 :root {
-  --cream: #fbf6f0;       /* latar halaman */
-  --cream-2: #f5ece2;     /* latar sekunder / blok */
+  --cream: #fff8fc;
+  --cream-2: #f8efff;
   --card: #ffffff;
-  --latte: #ead8c6;       /* garis, permukaan lembut */
-  --latte-2: #f3e7da;
-  --mocha: #7a4f33;       /* warna utama (putih di atasnya 7.3:1) */
-  --mocha-hover: #643f28;
-  --mocha-soft: #efe2d5;
-  --caramel: #d99b5b;     /* aksen hangat */
-  --caramel-soft: #fbecdc;
-  --nose: #f0a8a4;        /* pink hidung kucing */
-  --nose-soft: #fde9e7;
-  --ink: #3a2a20;         /* teks utama */
-  --muted: #7c6758;       /* teks sekunder (5.4:1 di krim) */
-  --line: #ecdfd2;
-  --income: #3f8a5c;      /* pemasukan */
-  --income-soft: #e3f2e8;
-  --expense: #c4553f;     /* pengeluaran */
-  --expense-soft: #fbe6e1;
-  --sky: #6f9fc7;
-  --sky-soft: #e5f0f8;
+  --latte: #eadff4;
+  --latte-2: #f4e8ff;
+
+  --mocha: #7b4aa8;
+  --mocha-hover: #633887;
+  --mocha-soft: #eee2ff;
+
+  --caramel: #ef78ae;
+  --caramel-soft: #ffe4f0;
+
+  --nose: #f59bc2;
+  --nose-soft: #fff0f7;
+
+  --ink: #30233d;
+  --muted: #766982;
+  --line: #eadff0;
+
+  --income: #3d9b78;
+  --income-soft: #e1f6ed;
+
+  --expense: #d45d7d;
+  --expense-soft: #ffe5ec;
+
+  --sky: #5da9d8;
+  --sky-soft: #e2f4ff;
+
+  --mint: #b9e8d4;
+  --peach: #ffd4bd;
+  --yellow: #fff0b8;
+  --blue-pastel: #b8e4f7;
+  --pink-pastel: #ffc7df;
+  --lavender: #d9c4f2;
 }
 
 @theme inline {
@@ -65,35 +80,65 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-heading), var(--font-body), system-ui, sans-serif;
   letter-spacing: -0.015em;
 }
 
 ::selection {
-  background: var(--caramel-soft);
+  background: var(--pink-pastel);
   color: var(--ink);
 }
 
-/* Fokus keyboard yang jelas di semua elemen interaktif */
 :focus-visible {
   outline: 3px solid var(--caramel);
   outline-offset: 2px;
 }
 
-/* Gerak halus maskot (dimatikan bila pengguna memilih reduced motion) */
 @keyframes boma-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
+
 @keyframes boma-wave {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-16deg); }
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-16deg);
+  }
 }
-.boma-float { animation: boma-float 4s ease-in-out infinite; }
-.boma-wave { transform-box: fill-box; transform-origin: 70% 95%; animation: boma-wave 1.6s ease-in-out infinite; }
+
+.boma-float {
+  animation: boma-float 4s ease-in-out infinite;
+}
+
+.boma-wave {
+  transform-box: fill-box;
+  transform-origin: 70% 95%;
+  animation: boma-wave 1.6s ease-in-out infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
